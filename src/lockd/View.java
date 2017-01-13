@@ -5,14 +5,17 @@ package lockd;
  * @date 01/11/2017
  * @title View.java
  * @purpose Handles all of the UX.
+ * 
  */
 
 public class View extends javax.swing.JFrame {
 
-    /**
-     * Creates new form View
+    /*
+     * Creates new form View and initializes components.
      */
-    public View() {
+    
+    public View(String title) {
+        super(title);
         initComponents();
     }
 

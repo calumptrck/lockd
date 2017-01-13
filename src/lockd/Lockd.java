@@ -34,9 +34,9 @@ public class Lockd{
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        //Creates new instance of View. 
         java.awt.EventQueue.invokeLater(() -> {
-            new View().setVisible(true);
+            new View("Lockd").setVisible(true);
         });
     }
 }
