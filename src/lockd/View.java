@@ -13,9 +13,9 @@ public class View extends javax.swing.JFrame {
     /*
      * Creates new form View and initializes components.
      */
-    
     public View(String title) {
         super(title);
+        Locker locker = new Locker(null);
         initComponents();
     }
 
