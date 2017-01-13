@@ -1,4 +1,4 @@
-package Lockist;
+package lockd;
 
 /**
  * @author johnandrewoss
@@ -7,7 +7,7 @@ package Lockist;
  * @purpose Main class for lockist.
  * 
  */
-public class lockist {
+public class Lockd {
 
     public static void main(String[] args) {
         // TODO code application logic here
