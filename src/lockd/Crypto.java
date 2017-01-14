@@ -24,7 +24,7 @@ public class Crypto {
      * @purpose: Sets the key for the AES algorithm implementation.
      * @param: String mykey: The key to be set.
      */
-    public static void setKey(String myKey) {
+    private static void setKey(String myKey) {
         MessageDigest sha = null;
         try {
             key = myKey.getBytes("UTF-8");

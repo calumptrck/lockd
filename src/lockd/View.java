@@ -15,7 +15,9 @@ public class View extends javax.swing.JFrame {
      */
     public View(String title) {
         super(title);
-        Locker locker = new Locker(null);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //Locker("Something") is currently only in for testing
+        Locker locker = new Locker("Something");
         initComponents();
     }
 

@@ -24,7 +24,6 @@ public class FileIO {
         dataRowsList.stream().forEach((row) -> {
             out.format("%s,%s,%s\n", row[0], row[1], row[2]);
         });
-
     }
     
     /*
@@ -58,7 +57,7 @@ public class FileIO {
     }
 
     /*
-     * @purpose: Convert data.csb to List
+     * @purpose: Convert data.csv to List
      */
     public final static void indexData() throws IOException {
         Scanner fs = new Scanner(dFile);
@@ -66,7 +65,6 @@ public class FileIO {
         while (fs.hasNext()) {
             dataRowsList.add(fs.next().split(","));
         }
-
     }
 
     /*
@@ -77,6 +75,4 @@ public class FileIO {
     public final static String[] retrieveItem(int index) throws IOException {
         return dataRowsList.get(index);
     }
-
-
 }
