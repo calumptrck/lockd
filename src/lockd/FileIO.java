@@ -24,6 +24,7 @@ public class FileIO {
         dataRowsList.stream().forEach((row) -> {
             out.format("%s,%s,%s\n", row[0], row[1], row[2]);
         });
+        out.close();
     }
     
     /*
@@ -65,6 +66,7 @@ public class FileIO {
         while (fs.hasNext()) {
             dataRowsList.add(fs.next().split(","));
         }
+        fs.close();
     }
 
     /*
