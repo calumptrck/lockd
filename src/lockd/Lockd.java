@@ -1,5 +1,7 @@
 package lockd;
 
+import java.util.Arrays;
+
 /**
  * @author johnandrewoss
  * @date 01/10/2017
@@ -34,10 +36,16 @@ public class Lockd{
         }
         //</editor-fold>
 
-        //Creates new instance of View. 
-        java.awt.EventQueue.invokeLater(() -> {
-            new View("Lockd").setVisible(true);
-        });
+        
+            java.awt.EventQueue.invokeLater(() -> {
+                try{
+                    new View("Lockd").setVisible(true);
+                } catch(Exception e){
+                    System.out.println(Arrays.toString(e.getStackTrace()));
+                }
+            });
+
+
     }
 }
     

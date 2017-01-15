@@ -19,11 +19,13 @@ public class View extends javax.swing.JFrame {
     /*
      * Creates new form View and initializes components.
      */
+    private Locker locker = new Locker(null);
+    
     public View(String title) throws IOException {
         super(title);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //Locker("Something") is currently only in for testing
-        Locker locker = new Locker("Something");
+        this.setResizable(false);
+        //TODO: setCryptoKey and test unlocking, most likely in another function.
         initComponents();
         indexData();
     }
