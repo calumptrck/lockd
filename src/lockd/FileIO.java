@@ -64,7 +64,7 @@ public class FileIO {
         Scanner fs = new Scanner(dFile);
         fs.next();
         while (fs.hasNext()) {
-            dataRowsList.add(fs.next().split(","));
+            dataRowsList.add(fs.nextLine().split(","));
         }
         fs.close();
     }
