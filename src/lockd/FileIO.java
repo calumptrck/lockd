@@ -62,7 +62,7 @@ public class FileIO {
      */
     public final static void indexData() throws IOException {
         Scanner fs = new Scanner(dFile);
-        fs.next();
+        fs.nextLine();
         while (fs.hasNext()) {
             dataRowsList.add(fs.nextLine().split(","));
         }
