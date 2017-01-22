@@ -1,12 +1,9 @@
 package lockd;
 
-import java.awt.Component;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 import static lockd.FileIO.*;
 
 /**
@@ -22,9 +19,9 @@ public class View extends javax.swing.JFrame {
     /*
      * Creates new form View and initializes components.
      */
-    private Locker locker = new Locker(null);
+    private Locker locker;
     
-    public View(String title) throws IOException {
+    public View(String title){
         super(title);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -33,9 +30,7 @@ public class View extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //TODO: setCryptoKey and test unlocking, most likely in another function.
         initComponents();
-        indexData();
         mainPane.setVisible(false);
     }
 
@@ -424,8 +419,18 @@ public class View extends javax.swing.JFrame {
 
     private void loginGoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginGoButtonActionPerformed
         String mp = String.valueOf(masterPasswordField.getPassword());
-        locker.setCryptoKey(mp);
-        // Relocate following 2 lines after authentication implementation
+        locker = new Locker(mp);
+        String contents = locker.unlock();
+        if(contents == null){
+            masterPasswordField.setText(null);
+            JOptionPane.showMessageDialog(null, "Incorrect Password");
+            return;
+        }
+        try {
+            indexData();
+        } catch (IOException e) {
+            System.out.println("Error while Indexing: " + e.toString());
+        }
         mainPane.setVisible(true);
         loginPane.setVisible(false);
         DefaultListModel model1 = new DefaultListModel();
@@ -464,7 +469,6 @@ public class View extends javax.swing.JFrame {
     private void mainPasswordFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPasswordFieldMouseEntered
         int s = jList1.getSelectedIndex();
         mainPasswordField.setText(dataRowsList.get(s)[2]);
-        
     }//GEN-LAST:event_mainPasswordFieldMouseEntered
     
     private void refresh() {

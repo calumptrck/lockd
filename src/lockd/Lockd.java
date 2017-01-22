@@ -1,6 +1,5 @@
 package lockd;
 
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +36,7 @@ public class Lockd{
             java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {

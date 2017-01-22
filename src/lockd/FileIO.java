@@ -49,7 +49,9 @@ public class FileIO {
      */
     public final static void indexData() throws IOException {
         Scanner fs = new Scanner(dFile);
-        fs.nextLine();
+        if(fs.hasNextLine()){
+            fs.nextLine();
+        }
         while (fs.hasNext()) {
             dataRowsList.add(fs.nextLine().split(","));
         }

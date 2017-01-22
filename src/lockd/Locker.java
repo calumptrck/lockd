@@ -24,13 +24,10 @@ public class Locker {
         setCryptoKey(secretkey);
         try {
             this.data = new String(Files.readAllBytes(Paths.get("data.csv")));
-            this.hash = new String(Files.readAllBytes(Paths.get("hash.txt")));
-            //TODO: Make this not terribly insecure.
-            if (this.hash.isEmpty()) {
-                this.hash = Crypto.sha256hash(this.secretKey);
-            }
+            this.hash = new String(Files.readAllBytes(Paths.get("hash.txt")));     
         } catch (Exception e) {
             System.out.println("Error while reading file: " + e.toString());
+            wipeLocker();
         }
     }
 
@@ -41,6 +38,10 @@ public class Locker {
      */
     public final String unlock() {
         try {
+            if(this.hash == null || "".equals(this.hash)){
+                wipeLocker();
+                return null;
+            }
             if (hashesEqual() && unlocked == false) {
                 this.data = Crypto.decrypt(this.data, this.secretKey);
                 unlocked = true;
@@ -82,16 +83,31 @@ public class Locker {
     
     //Temporary until something better is found.
     public final void saveFile(String data){
-        
         this.data = data;
         this.lock();
     }
 
     /*
+     * @purpose: Wipes the locker if the hash was deleted.
+     * @see: Makes deleting the hash actually bad.
+     */
+    public final void wipeLocker(){
+        try{
+            System.out.println("Wiping Locker");
+            byte[] d = Crypto.sha256hash(this.secretKey).getBytes("UTF-8");
+            byte[] s = "".getBytes("UTF-8");
+            Files.write(Paths.get("hash.txt"), d, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(Paths.get("data.csv"), s, StandardOpenOption.TRUNCATE_EXISTING);   
+        }catch(Exception e){
+            System.out.println("Error during wiping: " + e.toString());
+        }
+    }
+    
+    /*
      * @purpose: Checks to see if the hash equals the saved hash.
      * @see: Crypto.encrypt for the implementation.
      */
-    private final boolean hashesEqual() {
+    private boolean hashesEqual() {
         return Crypto.sha256hash(this.secretKey).equals(this.hash);
     }
 
