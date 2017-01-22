@@ -1,6 +1,5 @@
 package lockd;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -418,25 +417,14 @@ public class View extends javax.swing.JFrame {
 
     private void loginGoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginGoButtonActionPerformed
         String mp = String.valueOf(masterPasswordField.getPassword());
-        try {
-            locker = new Locker(mp);
-            String user = System.getProperty("user.name");
-            addItem("Lockd",user,mp);
-        } catch (IOException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        locker = new Locker(mp);
         data = locker.unlock();
         if(data == null){
             masterPasswordField.setText(null);
-            System.out.println(data);
             JOptionPane.showMessageDialog(null, "Incorrect Password");
             return;
         }
-        try {
-            indexData(data);
-        } catch (IOException e) {
-            System.out.println("Error while Indexing: " + e.toString());
-        }
+        indexData(data);
         mainPane.setVisible(true);
         loginPane.setVisible(false);
         DefaultListModel model1 = new DefaultListModel();
@@ -487,11 +475,7 @@ public class View extends javax.swing.JFrame {
         int s = jList1.getSelectedIndex();
         modifyItem(s,1,settingsUsernameField.getText());
         modifyItem(s,2,settingsPasswordField.getText());
-        try {
-            indexData(data);
-        } catch (IOException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        indexData(data);
         refresh();
         locker.saveFile(data);
     }//GEN-LAST:event_settingsChangeEntryActionPerformed
