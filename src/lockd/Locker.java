@@ -21,7 +21,7 @@ public class Locker {
     private String hash;
 
     public Locker(String secretkey) {
-        setCryptoKey(secretkey);
+        this.secretKey = secretkey;
         try {
             this.data = new String(Files.readAllBytes(Paths.get("data.csv")));
             this.hash = new String(Files.readAllBytes(Paths.get("hash.txt")));     
@@ -33,7 +33,8 @@ public class Locker {
 
     /*
      * @purpose: Unlocks the contents of the locker.
-     * @returns: The decrypted contents of the locker.
+     * @returns: The decrypted contents of the locker, or NULL if something went
+                 horribly wrong. 
      * @see: Crypto for the implementation of decryption.
      */
     public final String unlock() {
@@ -73,16 +74,8 @@ public class Locker {
         }
     }
 
-    /*
-     * @purpose: Sets the current locker's secretKey
-     * @param: String secretKey: the secretKey to be assigned to this. 
-     */
-    public final void setCryptoKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-    
     //Temporary until something better is found.
-    public final void saveFile(String data){
+    public final void saveFile(String data) {
         this.data = data;
         this.lock();
     }
@@ -91,10 +84,10 @@ public class Locker {
      * @purpose: Wipes the locker if the hash was deleted.
      * @see: Makes deleting the hash actually bad.
      */
-    public final void wipeLocker(){
+    private void wipeLocker() {
         try{
-            System.out.println("Wiping Locker");
             byte[] d = Crypto.sha256hash(this.secretKey).getBytes("UTF-8");
+            //null and null char don't work as they are not enough for Crypto to decrypt.
             byte[] s = "".getBytes("UTF-8");
             Files.write(Paths.get("hash.txt"), d, StandardOpenOption.TRUNCATE_EXISTING);
             Files.write(Paths.get("data.csv"), s, StandardOpenOption.TRUNCATE_EXISTING);   
@@ -109,12 +102,5 @@ public class Locker {
      */
     private boolean hashesEqual() {
         return Crypto.sha256hash(this.secretKey).equals(this.hash);
-    }
-
-    /*
-     * @purpose: For classes outside Locker.java to see if the Locker is unlocked.
-     */
-    public final boolean isUnlocked() {
-        return unlocked;
     }
 }
