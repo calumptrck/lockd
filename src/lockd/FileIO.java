@@ -51,7 +51,7 @@ public class FileIO {
             fs.nextLine();
         } else {
             String user = System.getProperty("user.name");
-            addItem("Lockd", user, "password");
+            addItem("Example", user, "password");
         }
         while (fs.hasNext()) {
             dataRowsList.add(fs.nextLine().split(","));

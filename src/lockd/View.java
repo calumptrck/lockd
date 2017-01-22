@@ -4,6 +4,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import static lockd.FileIO.*;
+import java.awt.datatransfer.*;
+import java.awt.Toolkit;
 
 /**
  * @author johnandrewoss
@@ -21,7 +23,8 @@ public class View extends javax.swing.JFrame {
     private Locker locker;
     private String data;
     private DefaultListModel model1 = new DefaultListModel();
-    
+    Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+        
     public View(String title){
         super(title);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -341,6 +344,11 @@ public class View extends javax.swing.JFrame {
         mainUsernameField.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
         mainUsernameField.setText("...");
         mainUsernameField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 3));
+        mainUsernameField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mainUsernameFieldMouseClicked(evt);
+            }
+        });
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -351,6 +359,9 @@ public class View extends javax.swing.JFrame {
         mainPasswordField.setText("...");
         mainPasswordField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 3));
         mainPasswordField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mainPasswordFieldMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 mainPasswordFieldMouseEntered(evt);
             }
@@ -497,19 +508,9 @@ public class View extends javax.swing.JFrame {
 
     private void loginGoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginGoButtonActionPerformed
         String mp = String.valueOf(masterPasswordField.getPassword());
-
-        
-            locker = new Locker(mp);
-            if (dataRowsList.isEmpty()) {
-                String user = System.getProperty("user.name");
-                addItem("Lockd",user,mp);
-                }
-        
-
         locker = new Locker(mp);
-
         data = locker.unlock();
-        if(data == null){
+        if (data == null) {
             masterPasswordField.setText(null);
             JOptionPane.showMessageDialog(null, "Incorrect Password");
             return;
@@ -605,6 +606,16 @@ public class View extends javax.swing.JFrame {
             
         
     }//GEN-LAST:event_addEntryButtonActionPerformed
+
+    private void mainUsernameFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainUsernameFieldMouseClicked
+        StringSelection stringSelection = new StringSelection(mainUsernameField.getText());
+        clpbrd.setContents(stringSelection, null);
+    }//GEN-LAST:event_mainUsernameFieldMouseClicked
+
+    private void mainPasswordFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPasswordFieldMouseClicked
+        StringSelection stringSelection = new StringSelection(dataRowsList.get(jList1.getSelectedIndex())[2]);
+        clpbrd.setContents(stringSelection, null);
+    }//GEN-LAST:event_mainPasswordFieldMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
