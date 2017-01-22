@@ -21,6 +21,7 @@ public class View extends javax.swing.JFrame {
      */
     private Locker locker;
     private String data;
+    private DefaultListModel model1 = new DefaultListModel();
     
     public View(String title){
         super(title);
@@ -60,6 +61,16 @@ public class View extends javax.swing.JFrame {
         settingsUsernameField = new javax.swing.JTextField();
         settingsPasswordField = new javax.swing.JTextField();
         jRadioButton1 = new javax.swing.JRadioButton();
+        addItemFrame = new javax.swing.JFrame();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        addEntryButton = new javax.swing.JButton();
+        addUsernameField = new javax.swing.JTextField();
+        addPasswordField = new javax.swing.JTextField();
+        addServiceField = new javax.swing.JTextField();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         loginPane = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -181,6 +192,74 @@ public class View extends javax.swing.JFrame {
 
         jRadioButton1.setText("jRadioButton1");
 
+        addItemFrame.setAlwaysOnTop(true);
+        addItemFrame.setResizable(false);
+
+        jLabel13.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(50, 50, 50));
+        jLabel13.setText("Add Item");
+
+        jLabel17.setText("Service:");
+
+        jLabel18.setText("Username:");
+
+        jLabel19.setText("Password:");
+
+        addEntryButton.setText("Add Entry");
+        addEntryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addEntryButtonActionPerformed(evt);
+            }
+        });
+
+        addUsernameField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 2));
+
+        addPasswordField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 2));
+
+        addServiceField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 2));
+
+        javax.swing.GroupLayout addItemFrameLayout = new javax.swing.GroupLayout(addItemFrame.getContentPane());
+        addItemFrame.getContentPane().setLayout(addItemFrameLayout);
+        addItemFrameLayout.setHorizontalGroup(
+            addItemFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addItemFrameLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(addItemFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(addEntryButton)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel18)
+                    .addComponent(jSeparator2)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel13)
+                    .addComponent(addPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(addUsernameField)
+                    .addComponent(addServiceField, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+        addItemFrameLayout.setVerticalGroup(
+            addItemFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addItemFrameLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addServiceField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addEntryButton)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(495, 653));
@@ -297,6 +376,7 @@ public class View extends javax.swing.JFrame {
         });
 
         removeButton.setText("-");
+        removeButton.setEnabled(false);
         removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeButtonActionPerformed(evt);
@@ -420,8 +500,10 @@ public class View extends javax.swing.JFrame {
         String mp = String.valueOf(masterPasswordField.getPassword());
         try {
             locker = new Locker(mp);
-            String user = System.getProperty("user.name");
-            addItem("Lockd",user,mp);
+            if (dataRowsList.isEmpty()) {
+                String user = System.getProperty("user.name");
+                addItem("Lockd",user,mp);
+                }
         } catch (IOException ex) {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -439,7 +521,7 @@ public class View extends javax.swing.JFrame {
         }
         mainPane.setVisible(true);
         loginPane.setVisible(false);
-        DefaultListModel model1 = new DefaultListModel();
+        
         dataRowsList.stream().forEach((x) -> {
             model1.addElement(x[0]);
         });
@@ -449,7 +531,28 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_loginGoButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure?");
+        switch (confirm) {
+            case JOptionPane.NO_OPTION:
+                System.out.println("No button clicked");
+                break;
+            case JOptionPane.YES_OPTION:
+                System.out.println("Yes button clicked");
+                if (dataRowsList.size() > 1) {
+                    int s = jList1.getSelectedIndex();
+                    jList1.setSelectedIndex(s-1);
+                    dataRowsList.remove(s);
+                    model1.remove(s);
+                } else {
+                    removeButton.setEnabled(false);
+                }
+                break;
+            case JOptionPane.CLOSED_OPTION:
+                System.out.println("Confirm removal dialog closed");
+                break;
+            default:
+                break;
+        }
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
@@ -462,7 +565,9 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_settingsButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        // TODO add your handling code here:
+        addItemFrame.setSize(250,325);
+        addItemFrame.setVisible(true);
+        
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
@@ -470,6 +575,9 @@ public class View extends javax.swing.JFrame {
         dService.setText(dataRowsList.get(s)[0]);
         mainUsernameField.setText(dataRowsList.get(s)[1]);
         mainPasswordField.setText("••••••••••••");
+        if (dataRowsList.size()>1) {
+            removeButton.setEnabled(true);
+        }
     }//GEN-LAST:event_jList1ValueChanged
 
     private void mainPasswordFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPasswordFieldMouseEntered
@@ -481,6 +589,7 @@ public class View extends javax.swing.JFrame {
         int s = jList1.getSelectedIndex();
         dService.setText(dataRowsList.get(s)[0]);
         mainUsernameField.setText(dataRowsList.get(s)[1]);
+        
     }
     
     private void settingsChangeEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsChangeEntryActionPerformed
@@ -496,15 +605,35 @@ public class View extends javax.swing.JFrame {
         locker.saveFile(data);
     }//GEN-LAST:event_settingsChangeEntryActionPerformed
 
+    private void addEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEntryButtonActionPerformed
+        try {
+            String[] NI = new String[]{addServiceField.getText(),addUsernameField.getText(),addPasswordField.getText()};
+            addItem(NI[0],NI[1],NI[2]);
+            model1.add(dataRowsList.size()-1,NI[0]);
+            //!!
+        } catch (IOException ex) {
+            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_addEntryButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.JButton addEntryButton;
+    private javax.swing.JFrame addItemFrame;
+    private javax.swing.JTextField addPasswordField;
+    private javax.swing.JTextField addServiceField;
+    private javax.swing.JTextField addUsernameField;
     private javax.swing.JLabel dService;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -518,6 +647,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton loginGoButton;
     private javax.swing.JPanel loginPane;
     private javax.swing.JPanel mainPane;
