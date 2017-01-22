@@ -1,6 +1,5 @@
 package lockd;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -498,27 +497,24 @@ public class View extends javax.swing.JFrame {
 
     private void loginGoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginGoButtonActionPerformed
         String mp = String.valueOf(masterPasswordField.getPassword());
-        try {
+
+        
             locker = new Locker(mp);
             if (dataRowsList.isEmpty()) {
                 String user = System.getProperty("user.name");
                 addItem("Lockd",user,mp);
                 }
-        } catch (IOException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+
+        locker = new Locker(mp);
+
         data = locker.unlock();
         if(data == null){
             masterPasswordField.setText(null);
-            System.out.println(data);
             JOptionPane.showMessageDialog(null, "Incorrect Password");
             return;
         }
-        try {
-            indexData(data);
-        } catch (IOException e) {
-            System.out.println("Error while Indexing: " + e.toString());
-        }
+        indexData(data);
         mainPane.setVisible(true);
         loginPane.setVisible(false);
         
@@ -596,24 +592,18 @@ public class View extends javax.swing.JFrame {
         int s = jList1.getSelectedIndex();
         modifyItem(s,1,settingsUsernameField.getText());
         modifyItem(s,2,settingsPasswordField.getText());
-        try {
-            indexData(data);
-        } catch (IOException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        indexData(data);
         refresh();
         locker.saveFile(data);
     }//GEN-LAST:event_settingsChangeEntryActionPerformed
 
     private void addEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEntryButtonActionPerformed
-        try {
+        
             String[] NI = new String[]{addServiceField.getText(),addUsernameField.getText(),addPasswordField.getText()};
             addItem(NI[0],NI[1],NI[2]);
             model1.add(dataRowsList.size()-1,NI[0]);
-            //!!
-        } catch (IOException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            
+        
     }//GEN-LAST:event_addEntryButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

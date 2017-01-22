@@ -1,6 +1,5 @@
 package lockd;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,7 +17,7 @@ public class FileIO {
                 String usr: Username added to String[].
                 String pwd: Password added to String[].
      */
-    public final static void addItem(String service, String usr, String pwd) throws IOException {
+    public final static void addItem(String service, String usr, String pwd) {
         dataRowsList.add(new String[]{service, usr, pwd});
     }
     
@@ -26,7 +25,7 @@ public class FileIO {
      * @purpose: Modify an element of dataRowsList.
      * @params: int index: Index of element to be removed.
      */
-    public final static void removeItem(int index) throws IOException {
+    public final static void removeItem(int index) {
         dataRowsList.remove(index);
     }
     
@@ -46,10 +45,13 @@ public class FileIO {
      * @purpose: Convert data.csv to List
      * @param: String data: Contains all of the decrypted contents of the locker
      */
-    public final static void indexData(String data) throws IOException {
+    public final static void indexData(String data) {
         Scanner fs = new Scanner(data);
-        if(fs.hasNextLine()){
+        if (fs.hasNextLine()) {
             fs.nextLine();
+        } else {
+            String user = System.getProperty("user.name");
+            addItem("Lockd", user, "password");
         }
         while (fs.hasNext()) {
             dataRowsList.add(fs.nextLine().split(","));
@@ -62,7 +64,7 @@ public class FileIO {
      * @params: int index: Index of element to be retrieved.
      * @returns: String[] element of dataRowsList at given index.
      */
-    public final static String[] retrieveItem(int index) throws IOException {
+    public final static String[] retrieveItem(int index) {
         return dataRowsList.get(index);
     }
 }

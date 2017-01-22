@@ -1,8 +1,5 @@
 package lockd;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,7 +20,7 @@ public class Locker {
     private String data;
     private String hash;
 
-    public Locker(String secretkey) throws IOException {
+    public Locker(String secretkey) {
         this.secretKey = secretkey;
         try {
             this.data = new String(Files.readAllBytes(Paths.get("data.csv")));
@@ -51,7 +48,6 @@ public class Locker {
                 this.data = Crypto.decrypt(this.data, this.secretKey);
                 unlocked = true;
                 return this.data;
-                
             }
         } catch (Exception e) {
             System.out.println("Error while unlocking: " + e.toString());
@@ -59,16 +55,20 @@ public class Locker {
         return null;
     }
     
-    public final void initFiles() throws IOException {
-        File hf = new File("hash.txt");
-        File df = new File("data.csv");
-        hf.createNewFile(); // if file already exists will do nothing 
-        df.createNewFile(); // if file already exists will do nothing 
-        FileOutputStream hFile = new FileOutputStream(hf, false);
-        FileOutputStream dFile = new FileOutputStream(df, false);
-        byte[] s = "".getBytes("UTF-8");
-        Files.write(Paths.get("data.csv"), s, StandardOpenOption.TRUNCATE_EXISTING);
-        Files.write(Paths.get("hash.txt"), s, StandardOpenOption.TRUNCATE_EXISTING);
+    /*
+     * @purpose: Initializes the files if there's nothing there.
+     */
+    public final void initFiles() {
+        try {
+            if (!Files.exists(Paths.get("data.csv"))) {
+                Files.createFile(Paths.get("data.csv"));
+            }
+            if (!Files.exists(Paths.get("hash.txt"))) {
+                Files.createFile(Paths.get("hash.txt"));
+            }
+        } catch (Exception e) {
+            System.out.println("Error while initializing: " + e.toString());
+        }
     }
 
     /*
