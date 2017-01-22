@@ -20,6 +20,7 @@ public class View extends javax.swing.JFrame {
      * Creates new form View and initializes components.
      */
     private Locker locker;
+    private String data;
     
     public View(String title){
         super(title);
@@ -420,14 +421,14 @@ public class View extends javax.swing.JFrame {
     private void loginGoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginGoButtonActionPerformed
         String mp = String.valueOf(masterPasswordField.getPassword());
         locker = new Locker(mp);
-        String contents = locker.unlock();
-        if(contents == null){
+        data = locker.unlock();
+        if(data == null){
             masterPasswordField.setText(null);
             JOptionPane.showMessageDialog(null, "Incorrect Password");
             return;
         }
         try {
-            indexData();
+            indexData(data);
         } catch (IOException e) {
             System.out.println("Error while Indexing: " + e.toString());
         }
@@ -482,7 +483,7 @@ public class View extends javax.swing.JFrame {
         modifyItem(s,1,settingsUsernameField.getText());
         modifyItem(s,2,settingsPasswordField.getText());
         try {
-            indexData();
+            indexData(data);
         } catch (IOException ex) {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1,6 +1,5 @@
 package lockd;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,6 @@ public class FileIO {
 
     //Note: data.csv has test data in it right now.
     
-    static File dFile = new File("data.csv");
     static List<String[]> dataRowsList = new ArrayList<>();
     static String fileHeader = "service,username,password";
    
@@ -46,9 +44,10 @@ public class FileIO {
 
     /*
      * @purpose: Convert data.csv to List
+     * @param: String data: Contains all of the decrypted contents of the locker
      */
-    public final static void indexData() throws IOException {
-        Scanner fs = new Scanner(dFile);
+    public final static void indexData(String data) throws IOException {
+        Scanner fs = new Scanner(data);
         if(fs.hasNextLine()){
             fs.nextLine();
         }
