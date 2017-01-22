@@ -488,7 +488,7 @@ public class View extends javax.swing.JFrame {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
         refresh();
-        //locker.saveFile(null);
+        locker.saveFile(data);
     }//GEN-LAST:event_settingsChangeEntryActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -16,7 +16,7 @@ import java.nio.file.StandardOpenOption;
 public class Locker {
 
     private boolean unlocked = false;
-    private String secretKey = "";
+    private String secretKey;
     private String data;
     private String hash;
 
@@ -78,6 +78,7 @@ public class Locker {
     public final void saveFile(String data) {
         this.data = data;
         this.lock();
+        this.unlock();
     }
 
     /*
