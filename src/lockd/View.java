@@ -30,7 +30,7 @@ public class View extends javax.swing.JFrame {
         this.setResizable(false);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
         //TODO: setCryptoKey and test unlocking, most likely in another function.
@@ -483,12 +483,7 @@ public class View extends javax.swing.JFrame {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
         refresh();
-        // Change once encryption is implemented, dataRowsList csv must be encrypted first then saved.
-        try {
-            saveFile();
-        } catch (IOException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //locker.saveFile(null);
     }//GEN-LAST:event_settingsChangeEntryActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

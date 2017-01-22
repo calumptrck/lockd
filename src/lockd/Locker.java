@@ -79,6 +79,13 @@ public class Locker {
     public final void setCryptoKey(String secretKey) {
         this.secretKey = secretKey;
     }
+    
+    //Temporary until something better is found.
+    public final void saveFile(String data){
+        
+        this.data = data;
+        this.lock();
+    }
 
     /*
      * @purpose: Checks to see if the hash equals the saved hash.

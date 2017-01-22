@@ -1,6 +1,8 @@
 package lockd;
 
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author johnandrewoss
@@ -36,16 +38,15 @@ public class Lockd{
         }
         //</editor-fold>
 
-        
-            java.awt.EventQueue.invokeLater(() -> {
-                try{
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
                     new View("Lockd").setVisible(true);
-                } catch(Exception e){
-                    System.out.println(Arrays.toString(e.getStackTrace()));
+                } catch (Exception ex) {
+                    Logger.getLogger(Lockd.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            });
-
-
+            }
+        });
     }
 }
     

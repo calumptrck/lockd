@@ -2,7 +2,6 @@ package lockd;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,19 +13,7 @@ public class FileIO {
     static File dFile = new File("data.csv");
     static List<String[]> dataRowsList = new ArrayList<>();
     static String fileHeader = "service,username,password";
-
-    /*
-     * @purpose: Rewrites data.csv with contents of dataRowsList.
-     */
-    public final static void saveFile() throws IOException {
-        PrintStream out = new PrintStream(dFile);
-        out.println(fileHeader);
-        dataRowsList.stream().forEach((row) -> {
-            out.format("%s,%s,%s\n", row[0], row[1], row[2]);
-        });
-        out.close();
-    }
-    
+   
     /*
      * @purpose: Inserts a String[] element to dataRowsList.
      * @params: String service: Name of service added to String[].
