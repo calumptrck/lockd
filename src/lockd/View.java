@@ -98,7 +98,6 @@ public class View extends javax.swing.JFrame {
 
         jLabel10.setText("New Password:");
 
-        settingsNewPassword.setText("jPasswordField1");
         settingsNewPassword.setToolTipText("");
         settingsNewPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200), 2));
 
@@ -183,7 +182,6 @@ public class View extends javax.swing.JFrame {
         jRadioButton1.setText("jRadioButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(550, 670));
 
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(495, 653));
 
@@ -420,10 +418,17 @@ public class View extends javax.swing.JFrame {
 
     private void loginGoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginGoButtonActionPerformed
         String mp = String.valueOf(masterPasswordField.getPassword());
-        locker = new Locker(mp);
+        try {
+            locker = new Locker(mp);
+            String user = System.getProperty("user.name");
+            addItem("Lockd",user,mp);
+        } catch (IOException ex) {
+            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+        }
         data = locker.unlock();
         if(data == null){
             masterPasswordField.setText(null);
+            System.out.println(data);
             JOptionPane.showMessageDialog(null, "Incorrect Password");
             return;
         }

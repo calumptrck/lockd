@@ -1,9 +1,13 @@
 package lockd;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import static lockd.FileIO.*;
 
 /**
  * @author johnandrewoss
@@ -20,13 +24,14 @@ public class Locker {
     private String data;
     private String hash;
 
-    public Locker(String secretkey) {
+    public Locker(String secretkey) throws IOException {
         this.secretKey = secretkey;
         try {
             this.data = new String(Files.readAllBytes(Paths.get("data.csv")));
             this.hash = new String(Files.readAllBytes(Paths.get("hash.txt")));     
         } catch (Exception e) {
             System.out.println("Error while reading file: " + e.toString());
+            initFiles();
             wipeLocker();
         }
     }
@@ -47,11 +52,24 @@ public class Locker {
                 this.data = Crypto.decrypt(this.data, this.secretKey);
                 unlocked = true;
                 return this.data;
+                
             }
         } catch (Exception e) {
             System.out.println("Error while unlocking: " + e.toString());
         }
         return null;
+    }
+    
+    public final void initFiles() throws IOException {
+        File hf = new File("hash.txt");
+        File df = new File("data.csv");
+        hf.createNewFile(); // if file already exists will do nothing 
+        df.createNewFile(); // if file already exists will do nothing 
+        FileOutputStream hFile = new FileOutputStream(hf, false);
+        FileOutputStream dFile = new FileOutputStream(df, false);
+        byte[] s = "".getBytes("UTF-8");
+        Files.write(Paths.get("data.csv"), s, StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(Paths.get("hash.txt"), s, StandardOpenOption.TRUNCATE_EXISTING);
     }
 
     /*
