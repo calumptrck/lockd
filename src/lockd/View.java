@@ -515,7 +515,6 @@ public class View extends javax.swing.JFrame {
         data = locker.unlock();
         if (data == null) {
             masterPasswordField.setText(null);
-            JOptionPane.showMessageDialog(null, "Incorrect Password");
             return;
         }
         indexData(data);

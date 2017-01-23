@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import javax.swing.JOptionPane;
 
 /**
  * @author johnandrewoss
@@ -26,7 +27,6 @@ public class Locker {
             this.data = new String(Files.readAllBytes(Paths.get("data.csv")));
             this.hash = new String(Files.readAllBytes(Paths.get("hash.txt")));     
         } catch (Exception e) {
-            System.out.println("Error while reading file: " + e.toString());
             initFiles();
             wipeLocker();
         }
@@ -42,12 +42,16 @@ public class Locker {
         try {
             if(this.hash == null || "".equals(this.hash)){
                 wipeLocker();
+                JOptionPane.showMessageDialog(null, "Thanks for settng your password!\n"
+                        + "Please login again to continue.");
                 return null;
             }
             if (hashesEqual() && unlocked == false) {
                 this.data = Crypto.decrypt(this.data, this.secretKey);
                 unlocked = true;
                 return this.data;
+            } else {
+                JOptionPane.showMessageDialog(null, "Incorrect Password");
             }
         } catch (Exception e) {
             System.out.println("Error while unlocking: " + e.toString());
