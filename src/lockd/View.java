@@ -23,7 +23,7 @@ public class View extends javax.swing.JFrame {
     private Locker locker;
     private String data;
     private DefaultListModel model1 = new DefaultListModel();
-    Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+    private Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
         
     public View(String title){
         super(title);
@@ -591,8 +591,14 @@ public class View extends javax.swing.JFrame {
     
     private void settingsChangeEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsChangeEntryActionPerformed
         int s = jList1.getSelectedIndex();
+        StringBuilder newData = new StringBuilder();
         modifyItem(s,1,settingsUsernameField.getText());
         modifyItem(s,2,settingsPasswordField.getText());
+        newData.append(fileHeader+"\n");
+        dataRowsList.stream().forEach((row) -> {
+            newData.append(row[0]+","+row[1]+","+row[2]+"\n");
+        });
+        data = newData.toString();
         indexData(data);
         refresh();
         locker.saveFile(data);
