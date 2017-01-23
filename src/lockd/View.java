@@ -1,7 +1,5 @@
 package lockd;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import static lockd.FileIO.*;
 import java.awt.datatransfer.*;
@@ -31,8 +29,8 @@ public class View extends javax.swing.JFrame {
         this.setResizable(false);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.out.println("Error during View instantiation: " + e.toString());
         }
         initComponents();
         mainPane.setVisible(false);
@@ -115,6 +113,11 @@ public class View extends javax.swing.JFrame {
         settingsNewPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200), 2));
 
         settingsChangeMasterPassword.setText("Change");
+        settingsChangeMasterPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsChangeMasterPasswordActionPerformed(evt);
+            }
+        });
 
         modifyEntryLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         modifyEntryLabel.setText("Modify Entry:");
@@ -582,18 +585,20 @@ public class View extends javax.swing.JFrame {
         mainPasswordField.setText(dataRowsList.get(s)[2]);
     }//GEN-LAST:event_mainPasswordFieldMouseEntered
     
+    /*
+     * @purpose: Refreshes the current view.
+     */
     private void refresh() {
         int s = jList1.getSelectedIndex();
         dService.setText(dataRowsList.get(s)[0]);
         mainUsernameField.setText(dataRowsList.get(s)[1]);
-        
     }
     
-    private void settingsChangeEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsChangeEntryActionPerformed
-        int s = jList1.getSelectedIndex();
+    /*
+     * @purpose: Rewrites the data to data.csv by calling Locker() methods.
+     */
+    private void updateLocker(){
         StringBuilder newData = new StringBuilder();
-        modifyItem(s,1,settingsUsernameField.getText());
-        modifyItem(s,2,settingsPasswordField.getText());
         newData.append(fileHeader+"\n");
         dataRowsList.stream().forEach((row) -> {
             newData.append(row[0]+","+row[1]+","+row[2]+"\n");
@@ -601,16 +606,20 @@ public class View extends javax.swing.JFrame {
         data = newData.toString();
         indexData(data);
         refresh();
-        locker.saveFile(data);
+        locker.saveFile(data);                        
+    }
+    
+    private void settingsChangeEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsChangeEntryActionPerformed
+        int s = jList1.getSelectedIndex();
+        modifyItem(s,1,settingsUsernameField.getText());
+        modifyItem(s,2,settingsPasswordField.getText());
+        updateLocker();
     }//GEN-LAST:event_settingsChangeEntryActionPerformed
 
     private void addEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEntryButtonActionPerformed
-        
             String[] NI = new String[]{addServiceField.getText(),addUsernameField.getText(),addPasswordField.getText()};
             addItem(NI[0],NI[1],NI[2]);
             model1.add(dataRowsList.size()-1,NI[0]);
-            
-        
     }//GEN-LAST:event_addEntryButtonActionPerformed
 
     private void mainUsernameFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainUsernameFieldMouseClicked
@@ -622,6 +631,11 @@ public class View extends javax.swing.JFrame {
         StringSelection stringSelection = new StringSelection(dataRowsList.get(jList1.getSelectedIndex())[2]);
         clpbrd.setContents(stringSelection, null);
     }//GEN-LAST:event_mainPasswordFieldMouseClicked
+
+    private void settingsChangeMasterPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsChangeMasterPasswordActionPerformed
+        locker.setCryptoKey(new String(settingsNewPassword.getPassword()));
+        updateLocker();
+    }//GEN-LAST:event_settingsChangeMasterPasswordActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;

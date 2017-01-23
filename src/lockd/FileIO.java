@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FileIO {
-
-    //Note: data.csv has test data in it right now.
     
     static List<String[]> dataRowsList = new ArrayList<>();
     static String fileHeader = "service,username,password";

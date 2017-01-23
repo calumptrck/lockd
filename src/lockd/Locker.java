@@ -82,7 +82,6 @@ public class Locker {
                 unlocked = false;
                 byte[] d = this.data.getBytes(Charset.forName("UTF-8"));
                 Files.write(Paths.get("data.csv"), d, StandardOpenOption.TRUNCATE_EXISTING);
-                //Most likely will be moved.
                 byte[] h = this.hash.getBytes(Charset.forName("UTF-8"));
                 Files.write(Paths.get("hash.txt"), h, StandardOpenOption.TRUNCATE_EXISTING);
             }
@@ -91,7 +90,11 @@ public class Locker {
         }
     }
 
-    //Temporary until something better is found.
+    /*
+     * @purpose: Saves the file
+     * @param: String data: contains the CSV in plaintext.
+     * @returns: Crypto.encrypt for the implementation.
+     */
     public final void saveFile(String data) {
         this.data = data;
         this.lock();
@@ -116,9 +119,19 @@ public class Locker {
     
     /*
      * @purpose: Checks to see if the hash equals the saved hash.
+     * @returns: True if the hashes are equal, false if they are not.
      * @see: Crypto.encrypt for the implementation.
      */
     private boolean hashesEqual() {
         return Crypto.sha256hash(this.secretKey).equals(this.hash);
+    }
+    
+    /*
+     * @purpose: Sets the SecretKey for changing the master password
+     * @param: String s: The SecretKey to be stored.
+     */
+    public void setCryptoKey(String s){
+        this.secretKey = s;
+        this.hash = Crypto.sha256hash(s);
     }
 }
