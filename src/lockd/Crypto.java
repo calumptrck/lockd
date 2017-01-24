@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 /**
  * @author johnandrewoss
@@ -80,16 +81,8 @@ public class Crypto {
     public static String sha256hash(String plaintext) {
         try{
             MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-            sha256.update(plaintext.getBytes("UTF-8"));
-            byte[] hash = sha256.digest();
-            //Converting from bytes to hex.
-            StringBuilder hexString = new StringBuilder();
-            for (int i = 0; i < hash.length; i++) {
-                String hex = Integer.toHexString(0xff & hash[i]);
-                if(hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();       
+            //Converting from bytes to hex
+            return (new HexBinaryAdapter()).marshal(sha256.digest(plaintext.getBytes("UTF-8")));
         } catch(Exception e) {
             System.out.println("Error while hashing: " + e.toString());
         }
