@@ -44,6 +44,7 @@ public class FileIO {
      * @param: String data: Contains all of the decrypted contents of the locker
      */
     public final static void indexData(String data) {
+        dataRowsList.clear();
         Scanner fs = new Scanner(data);
         if (fs.hasNextLine()) {
             fs.nextLine();
