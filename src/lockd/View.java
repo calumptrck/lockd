@@ -520,7 +520,6 @@ public class View extends javax.swing.JFrame {
         indexData(data);
         mainPane.setVisible(true);
         loginPane.setVisible(false);
-        
         dataRowsList.stream().forEach((x) -> {
             model1.addElement(x[0]);
         });
@@ -558,6 +557,7 @@ public class View extends javax.swing.JFrame {
             default:
                 break;
         }
+        updateLocker();
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
@@ -625,6 +625,7 @@ public class View extends javax.swing.JFrame {
             String[] NI = new String[]{addServiceField.getText(),addUsernameField.getText(),addPasswordField.getText()};
             addItem(NI[0],NI[1],NI[2]);
             model1.add(dataRowsList.size()-1,NI[0]);
+            updateLocker();
     }//GEN-LAST:event_addEntryButtonActionPerformed
 
     private void mainUsernameFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainUsernameFieldMouseClicked
