@@ -84,7 +84,7 @@ public class Crypto {
             sha256.update(plaintext.getBytes("UTF-8"));
             byte[] hash = sha256.digest();
             //Converting from bytes to hex.
-            StringBuffer hexString = new StringBuffer();
+            StringBuilder hexString = new StringBuilder();
             for (int i = 0; i < hash.length; i++) {
                 String hex = Integer.toHexString(0xff & hash[i]);
                 if(hex.length() == 1) hexString.append('0');

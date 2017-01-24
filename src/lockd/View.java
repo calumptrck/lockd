@@ -1,13 +1,9 @@
 package lockd;
 
-import java.awt.Component;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 import static lockd.FileIO.*;
+import java.awt.datatransfer.*;
+import java.awt.Toolkit;
 
 /**
  * @author johnandrewoss
@@ -22,20 +18,21 @@ public class View extends javax.swing.JFrame {
     /*
      * Creates new form View and initializes components.
      */
-    private Locker locker = new Locker(null);
-    
-    public View(String title) throws IOException {
+    private Locker locker;
+    private String data;
+    private DefaultListModel model1 = new DefaultListModel();
+    private Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+        
+    public View(String title){
         super(title);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.out.println("Error during View instantiation: " + e.toString());
         }
-        //TODO: setCryptoKey and test unlocking, most likely in another function.
         initComponents();
-        indexData();
         mainPane.setVisible(false);
     }
 
@@ -64,6 +61,16 @@ public class View extends javax.swing.JFrame {
         settingsUsernameField = new javax.swing.JTextField();
         settingsPasswordField = new javax.swing.JTextField();
         jRadioButton1 = new javax.swing.JRadioButton();
+        addItemFrame = new javax.swing.JFrame();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        addEntryButton = new javax.swing.JButton();
+        addUsernameField = new javax.swing.JTextField();
+        addPasswordField = new javax.swing.JTextField();
+        addServiceField = new javax.swing.JTextField();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         loginPane = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -102,11 +109,15 @@ public class View extends javax.swing.JFrame {
 
         jLabel10.setText("New Password:");
 
-        settingsNewPassword.setText("jPasswordField1");
         settingsNewPassword.setToolTipText("");
         settingsNewPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200), 2));
 
         settingsChangeMasterPassword.setText("Change");
+        settingsChangeMasterPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsChangeMasterPasswordActionPerformed(evt);
+            }
+        });
 
         modifyEntryLabel.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         modifyEntryLabel.setText("Modify Entry:");
@@ -186,8 +197,75 @@ public class View extends javax.swing.JFrame {
 
         jRadioButton1.setText("jRadioButton1");
 
+        addItemFrame.setAlwaysOnTop(true);
+        addItemFrame.setResizable(false);
+
+        jLabel13.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(50, 50, 50));
+        jLabel13.setText("Add Item");
+
+        jLabel17.setText("Service:");
+
+        jLabel18.setText("Username:");
+
+        jLabel19.setText("Password:");
+
+        addEntryButton.setText("Add Entry");
+        addEntryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addEntryButtonActionPerformed(evt);
+            }
+        });
+
+        addUsernameField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 2));
+
+        addPasswordField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 2));
+
+        addServiceField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 2));
+
+        javax.swing.GroupLayout addItemFrameLayout = new javax.swing.GroupLayout(addItemFrame.getContentPane());
+        addItemFrame.getContentPane().setLayout(addItemFrameLayout);
+        addItemFrameLayout.setHorizontalGroup(
+            addItemFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addItemFrameLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(addItemFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(addEntryButton)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel18)
+                    .addComponent(jSeparator2)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel13)
+                    .addComponent(addPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addComponent(addUsernameField)
+                    .addComponent(addServiceField, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+        addItemFrameLayout.setVerticalGroup(
+            addItemFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addItemFrameLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addServiceField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addUsernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addEntryButton)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(550, 670));
 
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(495, 653));
 
@@ -269,6 +347,11 @@ public class View extends javax.swing.JFrame {
         mainUsernameField.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
         mainUsernameField.setText("...");
         mainUsernameField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 3));
+        mainUsernameField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mainUsernameFieldMouseClicked(evt);
+            }
+        });
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -279,6 +362,9 @@ public class View extends javax.swing.JFrame {
         mainPasswordField.setText("...");
         mainPasswordField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 3));
         mainPasswordField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mainPasswordFieldMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 mainPasswordFieldMouseEntered(evt);
             }
@@ -303,6 +389,7 @@ public class View extends javax.swing.JFrame {
         });
 
         removeButton.setText("-");
+        removeButton.setEnabled(false);
         removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeButtonActionPerformed(evt);
@@ -424,11 +511,16 @@ public class View extends javax.swing.JFrame {
 
     private void loginGoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginGoButtonActionPerformed
         String mp = String.valueOf(masterPasswordField.getPassword());
-        locker.setCryptoKey(mp);
-        // Relocate following 2 lines after authentication implementation
+        locker = new Locker(mp);
+        data = locker.unlock();
+        if (data == null) {
+            masterPasswordField.setText(null);
+            return;
+        }
+        indexData(data);
         mainPane.setVisible(true);
         loginPane.setVisible(false);
-        DefaultListModel model1 = new DefaultListModel();
+        
         dataRowsList.stream().forEach((x) -> {
             model1.addElement(x[0]);
         });
@@ -438,7 +530,34 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_loginGoButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        // TODO add your handling code here:
+        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure?");
+        switch (confirm) {
+            case JOptionPane.NO_OPTION:
+                System.out.println("No button clicked");
+                break;
+            case JOptionPane.YES_OPTION:
+                System.out.println("Yes button clicked");
+                if (dataRowsList.size() > 1) {
+                    int s = jList1.getSelectedIndex();
+                    if (s == 0) {
+                        jList1.setSelectedIndex(s + 1);
+                        dataRowsList.remove(s);
+                        model1.remove(s);
+                    } else {
+                        jList1.setSelectedIndex(s - 1);
+                        dataRowsList.remove(s);
+                        model1.remove(s);
+                    }
+                } else {
+                    removeButton.setEnabled(false);
+                }
+                break;
+            case JOptionPane.CLOSED_OPTION:
+                System.out.println("Confirm removal dialog closed");
+                break;
+            default:
+                break;
+        }
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
@@ -451,7 +570,9 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_settingsButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        // TODO add your handling code here:
+        addItemFrame.setSize(250,325);
+        addItemFrame.setVisible(true);
+        
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
@@ -459,47 +580,86 @@ public class View extends javax.swing.JFrame {
         dService.setText(dataRowsList.get(s)[0]);
         mainUsernameField.setText(dataRowsList.get(s)[1]);
         mainPasswordField.setText("••••••••••••");
+        if (dataRowsList.size()>1) {
+            removeButton.setEnabled(true);
+        }
     }//GEN-LAST:event_jList1ValueChanged
 
     private void mainPasswordFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPasswordFieldMouseEntered
         int s = jList1.getSelectedIndex();
         mainPasswordField.setText(dataRowsList.get(s)[2]);
-        
     }//GEN-LAST:event_mainPasswordFieldMouseEntered
     
+    /*
+     * @purpose: Refreshes the current view.
+     */
     private void refresh() {
         int s = jList1.getSelectedIndex();
         dService.setText(dataRowsList.get(s)[0]);
         mainUsernameField.setText(dataRowsList.get(s)[1]);
     }
     
+    /*
+     * @purpose: Rewrites the data to data.csv by calling Locker() methods.
+     */
+    private void updateLocker(){
+        StringBuilder newData = new StringBuilder();
+        newData.append(fileHeader+"\n");
+        dataRowsList.stream().forEach((row) -> {
+            newData.append(row[0]+","+row[1]+","+row[2]+"\n");
+        });
+        data = newData.toString();
+        indexData(data);
+        refresh();
+        locker.saveFile(data);                        
+    }
+    
     private void settingsChangeEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsChangeEntryActionPerformed
         int s = jList1.getSelectedIndex();
         modifyItem(s,1,settingsUsernameField.getText());
         modifyItem(s,2,settingsPasswordField.getText());
-        try {
-            indexData();
-        } catch (IOException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        refresh();
-        // Change once encryption is implemented, dataRowsList csv must be encrypted first then saved.
-        try {
-            saveFile();
-        } catch (IOException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        updateLocker();
     }//GEN-LAST:event_settingsChangeEntryActionPerformed
+
+    private void addEntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEntryButtonActionPerformed
+            String[] NI = new String[]{addServiceField.getText(),addUsernameField.getText(),addPasswordField.getText()};
+            addItem(NI[0],NI[1],NI[2]);
+            model1.add(dataRowsList.size()-1,NI[0]);
+    }//GEN-LAST:event_addEntryButtonActionPerformed
+
+    private void mainUsernameFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainUsernameFieldMouseClicked
+        StringSelection stringSelection = new StringSelection(mainUsernameField.getText());
+        clpbrd.setContents(stringSelection, null);
+    }//GEN-LAST:event_mainUsernameFieldMouseClicked
+
+    private void mainPasswordFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPasswordFieldMouseClicked
+        StringSelection stringSelection = new StringSelection(dataRowsList.get(jList1.getSelectedIndex())[2]);
+        clpbrd.setContents(stringSelection, null);
+    }//GEN-LAST:event_mainPasswordFieldMouseClicked
+
+    private void settingsChangeMasterPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsChangeMasterPasswordActionPerformed
+        locker.setCryptoKey(new String(settingsNewPassword.getPassword()));
+        updateLocker();
+    }//GEN-LAST:event_settingsChangeMasterPasswordActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.JButton addEntryButton;
+    private javax.swing.JFrame addItemFrame;
+    private javax.swing.JTextField addPasswordField;
+    private javax.swing.JTextField addServiceField;
+    private javax.swing.JTextField addUsernameField;
     private javax.swing.JLabel dService;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -513,6 +673,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JButton loginGoButton;
     private javax.swing.JPanel loginPane;
     private javax.swing.JPanel mainPane;
