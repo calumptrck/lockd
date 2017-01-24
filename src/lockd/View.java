@@ -60,6 +60,8 @@ public class View extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         settingsUsernameField = new javax.swing.JTextField();
         settingsPasswordField = new javax.swing.JTextField();
+        changeMasterPwgen = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         addItemFrame = new javax.swing.JFrame();
         jLabel13 = new javax.swing.JLabel();
@@ -71,6 +73,7 @@ public class View extends javax.swing.JFrame {
         addUsernameField = new javax.swing.JTextField();
         addPasswordField = new javax.swing.JTextField();
         addServiceField = new javax.swing.JTextField();
+        addItemPwgen = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         loginPane = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -137,6 +140,10 @@ public class View extends javax.swing.JFrame {
 
         settingsPasswordField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200), 2));
 
+        changeMasterPwgen.setText("G");
+
+        jButton2.setText("G");
+
         javax.swing.GroupLayout settingsFrameLayout = new javax.swing.GroupLayout(settingsFrame.getContentPane());
         settingsFrame.getContentPane().setLayout(settingsFrameLayout);
         settingsFrameLayout.setHorizontalGroup(
@@ -144,7 +151,10 @@ public class View extends javax.swing.JFrame {
             .addGroup(settingsFrameLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(settingsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(settingsPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(settingsFrameLayout.createSequentialGroup()
+                        .addComponent(settingsPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(settingsChangeEntry)
                     .addComponent(jLabel15)
                     .addComponent(jLabel14)
@@ -156,10 +166,13 @@ public class View extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(settingsOldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(settingsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(settingsUsernameField, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(settingsNewPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addGroup(settingsFrameLayout.createSequentialGroup()
+                        .addGroup(settingsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(settingsUsernameField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(settingsNewPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(changeMasterPwgen, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         settingsFrameLayout.setVerticalGroup(
             settingsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,7 +190,9 @@ public class View extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(settingsNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(settingsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(settingsNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(changeMasterPwgen))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(settingsChangeMasterPassword)
                 .addGap(30, 30, 30)
@@ -189,10 +204,12 @@ public class View extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(settingsPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGroup(settingsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(settingsPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addGap(17, 17, 17)
                 .addComponent(settingsChangeEntry)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jRadioButton1.setText("jRadioButton1");
@@ -223,6 +240,8 @@ public class View extends javax.swing.JFrame {
 
         addServiceField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 2));
 
+        addItemPwgen.setText("G");
+
         javax.swing.GroupLayout addItemFrameLayout = new javax.swing.GroupLayout(addItemFrame.getContentPane());
         addItemFrame.getContentPane().setLayout(addItemFrameLayout);
         addItemFrameLayout.setHorizontalGroup(
@@ -239,7 +258,9 @@ public class View extends javax.swing.JFrame {
                     .addComponent(addPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                     .addComponent(addUsernameField)
                     .addComponent(addServiceField, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addItemPwgen, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         addItemFrameLayout.setVerticalGroup(
             addItemFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,10 +280,12 @@ public class View extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(addItemFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addItemPwgen))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(addEntryButton)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -570,7 +593,7 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_settingsButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        addItemFrame.setSize(250,325);
+        addItemFrame.setSize(275,325);
         addItemFrame.setVisible(true);
         
     }//GEN-LAST:event_addButtonActionPerformed
@@ -647,10 +670,13 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton addButton;
     private javax.swing.JButton addEntryButton;
     private javax.swing.JFrame addItemFrame;
+    private javax.swing.JButton addItemPwgen;
     private javax.swing.JTextField addPasswordField;
     private javax.swing.JTextField addServiceField;
     private javax.swing.JTextField addUsernameField;
+    private javax.swing.JButton changeMasterPwgen;
     private javax.swing.JLabel dService;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
