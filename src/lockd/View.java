@@ -539,9 +539,15 @@ public class View extends javax.swing.JFrame {
                 System.out.println("Yes button clicked");
                 if (dataRowsList.size() > 1) {
                     int s = jList1.getSelectedIndex();
-                    jList1.setSelectedIndex(s-1);
-                    dataRowsList.remove(s);
-                    model1.remove(s);
+                    if (s == 0) {
+                        jList1.setSelectedIndex(s + 1);
+                        dataRowsList.remove(s);
+                        model1.remove(s);
+                    } else {
+                        jList1.setSelectedIndex(s - 1);
+                        dataRowsList.remove(s);
+                        model1.remove(s);
+                    }
                 } else {
                     removeButton.setEnabled(false);
                 }
