@@ -19,6 +19,7 @@ public class Template {
         }
         return taken;
     }
+    
     /* Example usage: 
         PasswordBuilder builder = new PasswordBuilder();
         builder.lowercase(5)
