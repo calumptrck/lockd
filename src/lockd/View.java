@@ -60,7 +60,6 @@ public class View extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         settingsUsernameField = new javax.swing.JTextField();
         settingsPasswordField = new javax.swing.JTextField();
-        changeMasterPwgen = new javax.swing.JButton();
         modifyEntryPWGen = new javax.swing.JButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         addItemFrame = new javax.swing.JFrame();
@@ -140,13 +139,6 @@ public class View extends javax.swing.JFrame {
 
         settingsPasswordField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200), 2));
 
-        changeMasterPwgen.setText("G");
-        changeMasterPwgen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                changeMasterPwgenActionPerformed(evt);
-            }
-        });
-
         modifyEntryPWGen.setText("G");
         modifyEntryPWGen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,12 +168,9 @@ public class View extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(settingsOldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(settingsFrameLayout.createSequentialGroup()
-                        .addGroup(settingsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(settingsUsernameField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(settingsNewPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(changeMasterPwgen, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(settingsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(settingsUsernameField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(settingsNewPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         settingsFrameLayout.setVerticalGroup(
@@ -200,9 +189,7 @@ public class View extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(settingsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(settingsNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeMasterPwgen))
+                .addComponent(settingsNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(settingsChangeMasterPassword)
                 .addGap(30, 30, 30)
@@ -219,7 +206,7 @@ public class View extends javax.swing.JFrame {
                     .addComponent(modifyEntryPWGen))
                 .addGap(17, 17, 17)
                 .addComponent(settingsChangeEntry)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jRadioButton1.setText("jRadioButton1");
@@ -675,18 +662,6 @@ public class View extends javax.swing.JFrame {
           // to-do: check if old password inputted is equal to the master password, if so, change it with the generated password.
     }//GEN-LAST:event_settingsChangeMasterPasswordActionPerformed
 
-    private void changeMasterPwgenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeMasterPwgenActionPerformed
-        PasswordBuilder builder = new PasswordBuilder();
-        builder.lowercase(5)
-                .uppercase(1)
-                .digits(2)
-                .specials(1)
-                .shuffle();
-        String tempPW = (builder.build());
-        settingsNewPassword.setText(tempPW);
-        refresh();
-    }//GEN-LAST:event_changeMasterPwgenActionPerformed
-
     private void modifyEntryPWGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyEntryPWGenActionPerformed
         PasswordBuilder builder = new PasswordBuilder();
         builder.lowercase(5)
@@ -707,7 +682,6 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JTextField addPasswordField;
     private javax.swing.JTextField addServiceField;
     private javax.swing.JTextField addUsernameField;
-    private javax.swing.JButton changeMasterPwgen;
     private javax.swing.JLabel dService;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
