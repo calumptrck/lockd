@@ -38,11 +38,12 @@ public class Lockd{
         //</editor-fold>
         
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
                     new View("Lockd").setVisible(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(Lockd.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception e) {
+                    System.out.println("Error in Lockd.java" + e.getMessage());
                 }
             }
         });

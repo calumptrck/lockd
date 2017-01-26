@@ -6,7 +6,7 @@ import java.awt.datatransfer.*;
 import java.awt.Toolkit;
 
 /**
- * @author johnandrewoss
+ * @author calumpatrick
  * @date 01/11/2017
  * @title View.java
  * @purpose Handles all of the UX.
@@ -238,6 +238,11 @@ public class View extends javax.swing.JFrame {
         addServiceField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 2));
 
         addItemPwgen.setText("G");
+        addItemPwgen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addItemPwgenActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout addItemFrameLayout = new javax.swing.GroupLayout(addItemFrame.getContentPane());
         addItemFrame.getContentPane().setLayout(addItemFrameLayout);
@@ -659,7 +664,8 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_mainPasswordFieldMouseClicked
 
     private void settingsChangeMasterPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsChangeMasterPasswordActionPerformed
-          // to-do: check if old password inputted is equal to the master password, if so, change it with the generated password.
+        locker.setCryptoKey(new String(settingsNewPassword.getPassword()));
+        updateLocker();
     }//GEN-LAST:event_settingsChangeMasterPasswordActionPerformed
 
     private void modifyEntryPWGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyEntryPWGenActionPerformed
@@ -673,6 +679,18 @@ public class View extends javax.swing.JFrame {
         settingsPasswordField.setText(tempPW);
         refresh();
     }//GEN-LAST:event_modifyEntryPWGenActionPerformed
+
+    private void addItemPwgenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemPwgenActionPerformed
+        PasswordBuilder builder = new PasswordBuilder();
+        builder.lowercase(5)
+                .uppercase(1)
+                .digits(2)
+                .specials(1)
+                .shuffle();
+        String tempPW = (builder.build());
+        addPasswordField.setText(tempPW);
+        refresh();
+    }//GEN-LAST:event_addItemPwgenActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;

@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @author calumpatrick
+ * @date 01/20/2017
+ * @title FileIO.java
+ * @purpose Handles manipulation of data.
+ *
+ */
+
 public class FileIO {
     
     static List<String[]> dataRowsList = new ArrayList<>();
